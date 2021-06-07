@@ -1,4 +1,4 @@
-\chapter{Exploring domain adaptation techniques} \label{chap:domain-adaptation}
+\chapter{Exploring Domain Adaptation Techniques} \label{chap:domain-adaptation}
 
 In this chapter we explore domain adaptation methods for detecting political bias in Reddit comments, using the cross-domain dataset developed in Chapter \ref{chap:reddit-data}. We consider a direct transfer approach, and an approach using a state-of-the-art domain-adaptive BERT model called AdaptaBERT.
 
@@ -19,7 +19,7 @@ We denote a standard classifier for domain $ B $ as an \textit{in-domain} model 
     \label{fig:direct-transfer}
 \end{figure}
 
-Using our cross-domain Reddit dataset, we will evaluate direct transfer of news articles $ \rightarrow $ comments, and also transfer of comments $ \rightarrow $ news articles. The latter is influenced by the discussion in Section \ref{sec:readership-bias} as to whether bias in the news source determines readership bias, or whether bias in the source's audience influences biases in the articles the source produces. Evaluating this transfer will help us see if audience reaction is a good predictor of news article bias. We compare these transfer models against in-domain models for articles and comments.
+Using our cross-domain Reddit dataset, we will evaluate direct transfer of news articles $ \rightarrow $ comments, and also transfer of comments $ \rightarrow $ news articles. The latter is influenced by the discussion in Section \ref{subsec:readership-bias-social-media} as to whether bias in the news source determines readership bias, or whether bias in the source's audience influences biases in the articles the source produces. Evaluating this transfer will help us see if audience reaction is a good predictor of news article bias. We compare these transfer models against in-domain models for articles and comments.
 
 We use BERT sequence classification models for all of the above. With BERT direct transfer models, pre-training is performed as with standard BERT - on a large amount of English language text sourced from BookCorpus and Wikipedia. Fine-tuning is performed on the source domain, and then inference is performed on the target domain. See Figure \ref{fig:direct-transfer-in-domain-bert} for a diagram comparing direct transfer and in-domain BERT models. The training objective at each stage is shown in bold, with the domain being trained on underneath.
 

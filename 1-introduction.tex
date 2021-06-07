@@ -1,12 +1,25 @@
 \chapter{Introduction}
 
-Biases play a huge role in how we perceive and react to media. There are many documented types of media bias that exist \cite{types-of-bias}, including temporal bias (bias towards events that are happening today), bad-news bias, and many more. In this project we focus on political bias.
+Political bias is being increasingly scrutinised in modern-day news media. The last decade has seen increasing political polarisation of news sources, most notably during the 2016 and 2020 US elections \cite{us-election}, even though the vast majority of people want unbiased news \cite{pew-unbiased}. As such, a big focus has been placed on detecting political bias within news content with machine learning and natural language processing.
 
-Political bias is being increasingly scrutinised in the modern-day media. The presence of political bias in the media isn't new - newspapers have pledged their allegiances to particular political parties since the 19th and early 20th centuries \cite{partisanship-history} - however there has also been a big shift in the last 30 years from objective news to more subjective, opinionated reporting \cite{subjective-news}. Regardless, there is a global appetite for unbiased news: a Pew Research survey found that across 38 countries 75\% of participants said it is not acceptable for a news organisation to favour one political party over another \cite{pew-unbiased}, although only 52\% thought that their own country's news media report different positions on political issues fairly.
+However, less attention has been paid to detecting the biases of readers and consumers of news. We term this \textit{readership bias}. Social media is a prime example of a medium where readership bias can be explored - almost 70\% of Americans now get their news from social media \cite{pew-social-media-news-2018}, and examining the sheer volume of comments left online from readers can help analyse the bias of readers, as well as tackle further problems on social media such as filter bubbles and echo chambers.
 
-Social media usage has soared in the last decade, with the largest social networks sporting billions of users \cite{rise-of-social-media}, leading to a dramatic rise in the number of people getting their news from social media. The Pew Research Center found in 2018 that 68\% of Americans get their news from social media \cite{pew-social-media-news-2018}, and that Facebook, Twitter and Reddit were the sites on which the highest proportion of users were exposed to news.
+We employ transfer learning, specifically domain adaptation, to take the wealth of knowledge that has been used to detect political bias in news content, and apply this to detecting political bias in social media content. 
 
-Detecting political bias in the news is a key problem being tackled today, but a relevant side-problem is identifying \textit{readership bias} - the biases of those who read the news, and exploring how audiences react to modern media. Readership bias is a highly under-explored area in literature - it is hard to find any examples of people's reactions to particular news being analysed. Improved political bias detection on social media will help us understand readership bias, and help us tackle further problems on social media such as filter bubbles and echo chambers.
+-----------------------------------------
+
+
+Regardless, there is a global appetite for unbiased news: a Pew Research survey across 38 countries found that 75\% of the public said it isn't acceptable for a news organisation to favour one political party \cite{pew-unbiased}, although only 52\% thought that their own country's news media report different positions on political issues fairly.
+
+On top of this, social media usage has soared in the last decade \cite{rise-of-social-media}. Almost 70\% of Americans get their news from social media \cite{pew-social-media-news-2018}, and Facebook, Twitter and Reddit are the sites on which the highest proportion of users were exposed to news. The sheer volume of comments online 
+
+
+Detecting political bias in the news is a key problem being tackled today, but a relevant side-problem is identifying \textit{readership bias} - the biases of those who read the news, and exploring how audiences react to modern media. Readership bias is a highly under-explored area in literature - it is hard to find any examples of people's reactions to particular news being analysed.
+
+
+Improved political bias detection on social media will help us understand readership bias, and help us tackle further problems on social media such as filter bubbles and echo chambers.
+
+Previous work has been done to manually detect political bias.
 
 Work has already been done to manually classify news sources by political bias, such as by Media Bias/Fact Check \cite{mbfc} and Ad Fontes Media \cite{media-bias-chart}, however detecting any bias manually comes with several problems. Volunteers often need an education in political science and/or bias detection training before they can label biased text, and volunteers may also bring their own internal political bias to their labelling. We therefore consider applying machine learning and natural language processing techniques to these problems. Machine learning models only examine characteristics of the language itself, without any preconceived notions of politics or the current political atmosphere, and once trained a model can be quickly deployed for inference on any amount of new text, significantly speeding up the bias detection process.
 
