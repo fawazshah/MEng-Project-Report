@@ -1,0 +1,37 @@
+\chapter{Conclusion, Evaluation, Ethical Issues \& Future Work}
+
+\section{Conclusion}
+
+
+
+\section{Evaluation}
+
+Reddit subreddit titles (which form our annotations) all follow US political scale roughly
+
+\section{Ethical Issues}
+
+\todo{write an up to date version}
+
+For all information we collect we must abide by the Data Protection Act (DPA) 2018 \cite{dpa}, which sets out UK GDPR rules. In this project we do not manually collect any private data relating to Reddit users - all data we use is exposed publicly by the Reddit API. However for all comments we collect, the author's Reddit username is also collected as part of the API response. This legally counts as storing sensitive personal information under the DPA, however we mitigate this issue by discarding Reddit usernames from our dataset as soon as possible, since it is not relevant to our research. We don't infer any political bias on a per-user basis, however if we did we would have to be careful not to publish this association anywhere (for obvious reasons).
+
+For others to use our model in production systems we would need to verify our models are unbiased. Machine learning models are often black-box models - verifying what behaviour occurs inside ML models is an open research topic, and so we can never say for sure that our models are completely unbiased. We could however compare against manually-annotated data to see where bias in our models might lie.
+
+
+biased data -> biased model
+
+gebru, reddit
+https://dl.acm.org/doi/abs/10.1145/3351095.3372829
+
+
+\section{Future Work}
+
+Exploring bias in tabloids vs broadsheets
+
+Further work on Reddit:
+\begin{itemize}
+    \item Compare Reddit political scale to various countries' political scales (e.g. does it most align with the US scale?)
+    \item Look at bias across time
+\end{itemize}
+
+Explore effect of NSP addition to AdaptaBERT for other problems (question answering, natural language inference)
+

@@ -1,0 +1,29 @@
+\chapter{Introduction}
+
+Biases play a huge role in how we perceive and react to media. There are many documented types of media bias that exist \cite{types-of-bias}, including temporal bias (bias towards events that are happening today), bad-news bias, and many more. In this project we focus on political bias.
+
+Political bias is being increasingly scrutinised in the modern-day media. The presence of political bias in the media isn't new - newspapers have pledged their allegiances to particular political parties since the 19th and early 20th centuries \cite{partisanship-history} - however there has also been a big shift in the last 30 years from objective news to more subjective, opinionated reporting \cite{subjective-news}. Regardless, there is a global appetite for unbiased news: a Pew Research survey found that across 38 countries 75\% of participants said it is not acceptable for a news organisation to favour one political party over another \cite{pew-unbiased}, although only 52\% thought that their own country's news media report different positions on political issues fairly.
+
+Social media usage has soared in the last decade, with the largest social networks sporting billions of users \cite{rise-of-social-media}, leading to a dramatic rise in the number of people getting their news from social media. The Pew Research Center found in 2018 that 68\% of Americans get their news from social media \cite{pew-social-media-news-2018}, and that Facebook, Twitter and Reddit were the sites on which the highest proportion of users were exposed to news.
+
+Detecting political bias in the news is a key problem being tackled today, but a relevant side-problem is identifying \textit{readership bias} - the biases of those who read the news, and exploring how audiences react to modern media. Readership bias is a highly under-explored area in literature - it is hard to find any examples of people's reactions to particular news being analysed. Improved political bias detection on social media will help us understand readership bias, and help us tackle further problems on social media such as filter bubbles and echo chambers.
+
+Work has already been done to manually classify news sources by political bias, such as by Media Bias/Fact Check \cite{mbfc} and Ad Fontes Media \cite{media-bias-chart}, however detecting any bias manually comes with several problems. Volunteers often need an education in political science and/or bias detection training before they can label biased text, and volunteers may also bring their own internal political bias to their labelling. We therefore consider applying machine learning and natural language processing techniques to these problems. Machine learning models only examine characteristics of the language itself, without any preconceived notions of politics or the current political atmosphere, and once trained a model can be quickly deployed for inference on any amount of new text, significantly speeding up the bias detection process.
+
+Examining social media content for bias presents a different textual `domain' to news article text. We therefore aim to explore and extend state-of-the-art domain adaptation methods with the goal of improving bias detection on social media.
+
+main objectives
+
+ - survey existing methods for detecting political bias
+ 
+ - explore transfer learning, specifically domain adaptation, as a way to improve accuracy of detecting readership bias on social media
+
+\section{Contributions}
+
+The main contributions of this dissertation are as follows:
+
+\begin{itemize}
+    \item \textbf{Detecting political bias with ensemble classifiers and BERT} - We survey existing machine learning models for detecting political bias, including ensemble classifiers that have not been explored in prior literature. We assess performance using pre-computed features from previous research, as well as using models such as BERT that perform textual feature extraction themselves. See Chapter \ref{chap:ensemble-bert}.
+    \item \textbf{Developing a cross-domain Reddit dataset} - We create a novel dataset consisting of both news articles and Reddit comments that address those articles, aimed at domain adaptation tasks. We discuss the design decisions and trade-offs involved in creating a high-quality dataset, and assess similarity between the domains in our dataset. See Chapter \ref{chap:reddit-data}.
+    \item \textbf{Exploring and extending unsupervised domain adaptation} - We investigate unsupervised domain adaptation to detect political bias on Reddit, and extend a state-of-the-art domain-adaptive BERT model, yielding a 3\% increase in accuracy on this task. See Chapter \ref{chap:domain-adaptation}.
+\end{itemize}

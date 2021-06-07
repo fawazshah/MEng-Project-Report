@@ -1,0 +1,74 @@
+\documentclass[a4paper, twoside]{report}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage[hyphens]{url}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\setlength{\marginparwidth}{2cm}
+\usepackage[colorinlistoftodos]{todonotes}
+
+% adds newline, removes autoindent for new paragraphs
+\usepackage{parskip}
+
+% Remove extra spacing in itemize and enumerate
+\usepackage{enumitem}
+\setlist{nosep}
+
+% allows tables to be centred when going past text margins
+\usepackage{adjustbox}
+
+% increase height of each row in table relative to default height
+\renewcommand{\arraystretch}{1.2}
+
+% typesetting algorithms
+\usepackage{algorithm} 
+\usepackage{algpseudocode}
+
+% use subfigures
+\usepackage{subcaption}
+
+% checks for unused references
+%\usepackage{refcheck}
+
+\title{Detecting Political Bias On Social Media With Improved Domain Adaptation Techniques}
+\author{Fawaz Shah}
+% Update supervisor and other title stuff in title/title.tex
+
+\begin{document}
+\input{0-title/title.tex}
+
+\begin{abstract}
+
+\end{abstract}
+
+\renewcommand{\abstractname}{Acknowledgements}
+\begin{abstract}
+
+\end{abstract}
+
+\tableofcontents
+\listoffigures
+\listoftables
+
+\input{1-introduction/introduction}
+\input{2-background/background}
+\input{3-ensemble-bert/ensemble-bert}
+\input{4-reddit-data/reddit-data}
+\input{5-domain-adaptation/domain-adaptation}
+\input{6-extending-adaptabert/6-extending-adaptabert}
+\input{7-conclusion/conclusion}
+\input{8-bibliography/bibliography}
+
+
+\end{document}
