@@ -2,7 +2,13 @@
 
 \section{Conclusion}
 
+In this project we set out to explore if transfer learning, specifically domain adaptation, can help detect political bias on social media, using knowledge learnt from detecting the same bias in news content. We started by surveying classifiers to detect bias in the news, finding SVMs and gradient-boosted forests to give the best performance, using features from earlier research. We then examined BERT models for the same task, which perform feature extraction and classification holistically, finding these also give fairly good performance.
 
+For our domain adaptation task, we created our own dataset of news articles and Reddit comments annotated by political bias, making sure to preserve data quality by ensuring high-quality annotations, avoiding concept drift and resolving class imbalance. Examining similarities between the domains in our dataset, we found fairly high similarity between news article and comment text, lending weight to the hypothesis that domain adaptation can improve bias detection in these domains.
+
+We then explored a direct transfer approach and an approach using AdaptaBERT for unsupervised domain adaptation from news content to social media content, and also from social media content to news. We found that in both cases domain adaptation cannot quite reach the classification performance of standard in-domain models, however the transfer from comments to news was able to reach within 7\% of the F1 score of an in-domain model. This signifies that readers' reactions to news articles can be a good predictor of the bias of the article itself.
+
+We also found AdaptaBERT does not significantly improve over simple direct transfer. We investigate extending AdaptaBERT with an extra Next Sentence Prediction stage, originally used in BERT pre-training, to see if this improves classification performance. We find that it improves F1 score by 8\% in news to comments transfer, and by around 1\% for the reverse transfer. However, it still doesn't beat the in-domain baselines. For a named entity recognition task, it improves on F1 score by around 3\% compared to previous research. We have therefore achieved a significant improvement over standard AdaptaBERT, although there is still scope for much further work in this field.
 
 \section{Evaluation}
 

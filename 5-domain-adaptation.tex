@@ -21,6 +21,12 @@ We denote a standard classifier for domain $ B $ as an \textit{in-domain} model 
 
 Using our cross-domain Reddit dataset, we will evaluate direct transfer of news articles $ \rightarrow $ comments, and also transfer of comments $ \rightarrow $ news articles. The latter is influenced by the discussion in Section \ref{subsec:readership-bias-social-media} as to whether bias in the news source determines readership bias, or whether bias in the source's audience influences biases in the articles the source produces. Evaluating this transfer will help us see if audience reaction is a good predictor of news article bias. We compare these transfer models against in-domain models for articles and comments.
 
+From Section \ref{sec:domain-similarity}, we identified 3 textual domains in our data. However, news articles can be split up into 2 domains - article headlines and article bodies. We choose to only use article bodies in our investigation, and ignore article headlines - from our results in Section \ref{subsec:nmr-bert-evaluation}, we found that using article body text to detect bias outperforms using any article headline information. From now on when we refer to `articles', we are only considering article body text.
+
+\subsection{Model choice}
+
+In choosing what model to use for our transfer learning methods, we consider the models explored in Chapter \ref{chap:ensemble-bert}. SVMs and gradient-boosted forests exhibited the best bias-detection performance out of all classifiers, however one major challenge is that these rely on the News-Media-Reliability custom features, which were solely computed for the news sources in that dataset. Recomputing these custom features for every news article and Reddit comment in our cross-domain dataset from Chapter \ref{chap:reddit-data} would be incredibly time-consuming, and so we go with BERT, which performs all feature extraction automatically via examining raw text input. We saw in Section \ref{sec:nmr-bert} that BERT performs slightly worse than the News-Media-Reliability classifiers, however overall its performance is still fairly good.
+
 We use BERT sequence classification models for all of the above. With BERT direct transfer models, pre-training is performed in the same way as for standard BERT - on a large amount of English language text sourced from BookCorpus and Wikipedia. Fine-tuning is performed on the source domain, and then inference is performed on the target domain. See Figure \ref{fig:direct-transfer-in-domain-bert} for a diagram comparing direct transfer and in-domain BERT models. The training objective at each stage is shown in bold, with the domain being trained on underneath.
 
 \begin{figure}
@@ -30,8 +36,6 @@ We use BERT sequence classification models for all of the above. With BERT direc
     \caption{The stages of direct transfer and in-domain BERT approaches}
     \label{fig:direct-transfer-in-domain-bert}
 \end{figure}
-
-From Section \ref{sec:domain-similarity}, we identified 3 textual domains in our data. However, news articles can be split up into 2 domains - article headlines and article bodies. We choose to only use article bodies in our investigation, and ignore article headlines - from our results in Section \ref{subsec:nmr-bert-evaluation}, we found that using article body text to detect bias outperforms using any article headline information. From now on when we refer to `articles', we are only considering article body text.
 
 \subsection{Experimental setup + evaluation}
 
@@ -66,7 +70,7 @@ This is an important finding, since in the real world comments are much more abu
 
 \section{AdaptaBERT} \label{sec:adaptabert}
 
-Beyond direct transfer, more modern domain adaptation methods exploit unsupervised techniques to increase accuracy on the target domain, without needing more labelled target domain data. One such method is AdaptaBERT \cite{adaptabert}, a modified BERT architecture that is geared towards unsupervised domain adaptation.
+Beyond direct transfer BERT models, we explore a more modern method called AdaptaBERT \cite{adaptabert}, a modified BERT architecture that is geared towards unsupervised domain adaptation.
 
 Standard BERT models are trained for masked language modelling (MLM) and next sentence prediction (NSP) during pre-training, and then are fine-tuned for the task at hand (in our case, sequence classification). In the direct transfer case, this fine-tuning occurs only on the source domain. AdaptaBERT adds an extra fine-tuning step where another round of MLM is performed, but on a combination of the source domain and the target domain. This helps attune BERT's internal contextualised word embeddings to words in the target domain, and yields significantly better performance than direct transfer for the tasks of POS tagging and named entity recognition \cite{adaptabert}, especially on `out-of-vocabulary' (OOV) terms - words seen at inference time in the target domain that were not seen during training.
 
@@ -80,7 +84,7 @@ The new MLM stage is applied to a dataset containing all target domain data avai
     \label{fig:adaptabert}
 \end{figure}
 
-A diagram comparing the AdaptaBERT approach to direct transfer and in-domain approaches is shown in Figure \ref{fig:adaptabert}. We can see AdaptaBERT only adds an extra unsupervised stage, so no extra labelled data is needed in either domain.
+A diagram comparing the AdaptaBERT approach to direct transfer and in-domain approaches is shown in Figure \ref{fig:adaptabert}. We can see AdaptaBERT only adds an extra unsupervised stage, so no extra labelled data is needed in either the source or target domain.
 
 In Section \ref{sec:domain-similarity} we found the Jaccard distance between articles and comments in our dataset was 0.44, indicating good scope for domain adaptation due to a shared vocabulary. However, each of these domains also has a large amount of OOV terms (130,123 for articles and 80,594 for comments). Therefore, our hypothesis is that AdaptaBERT will improve classification performance dramatically over direct transfer.
 

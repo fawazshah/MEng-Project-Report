@@ -69,7 +69,7 @@ Results are shown in Table \ref{tab:nmr-ensemble-results}, given to 2 decimal pl
     \label{tab:nmr-ensemble-results}
 \end{table}
 
-We see that using all features, the highest performing classifiers is the SVM, with gradient-boosted forests coming in a close second. Only using the text-based features, gradient-boosted trees perform the best. Hence ensemble classifiers do show a small improvement ($ \approx $ 1\%) over the other, weaker learners for this particular problem.
+We see that using all features, the highest performing classifiers is the SVM, with gradient-boosted forests coming in a close second. Only using the text-based features, gradient-boosted forests perform the best. Hence ensemble classifiers do show a small improvement ($ \approx $ 1\%) over the other, weaker learners for this particular problem.
 
 
 Baly et al. report an SVM macro-F1 score of 61.31\% and accuracy of 68.86\%. Our SVM manages to achieve a similar accuracy, however our macro-F1 score is around 6 percentage points higher. This could be attributed to our differences in dealing with class imbalance - Baly et al. merge \textit{center-left} and \textit{center-right} into the \textit{center} class, whereas we actually remove the transitionary classes altogether. Our higher F1 score could signify that keeping a distinct boundary between left-wing and right-wing content improves classifier performance, even if the amount of training data available is reduced. Merging \textit{left-center} and \textit{right-center} into the \textit{center} class may confuse the classifier, causing it to mispredict.
