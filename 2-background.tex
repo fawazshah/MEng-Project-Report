@@ -1,6 +1,6 @@
 \chapter{Background}
 
-In this chapter we cover several elements of background research needed for the project. We introduce the idea of political bias (Section \ref{sec:political-bias}), and look at existing datasets of news content annotated by political bias (Section \ref{sec:existing-datasets}), followed by machine learning methods that have been employed to detect bias in news (Section \ref{sec:detecting-political-bias-in-news}). We then introduce Reddit (Section \ref{sec:reddit}) and the idea of readership bias (Section \ref{sec:readership-bias}), and explore related work in detecting political readership bias on social media. Finally, we introduce transfer learning (Section \ref{sec:transfer-learning}) and specifically previous work in domain adaptation (Section \ref{subsec:domain-adaptation}).
+In this chapter we cover several elements of background research needed for the project. We introduce the idea of political bias (Section \ref{sec:political-bias}), and look at existing datasets of news content annotated by political bias (Section \ref{sec:existing-news-datasets}), followed by machine learning methods that have been employed to detect bias in news (Section \ref{sec:detecting-political-bias-in-news}). We then introduce Reddit (Section \ref{sec:reddit}) and the idea of readership bias (Section \ref{sec:readership-bias}), and explore related work in detecting political readership bias on social media. Finally, we introduce transfer learning (Section \ref{sec:transfer-learning}) and specifically previous work in domain adaptation (Section \ref{subsec:domain-adaptation}).
 
 \section{Political bias} \label{sec:political-bias}
 
@@ -12,7 +12,7 @@ Overarching themes that can be drawn include that left-wing thought more often t
 
 Of course, political bias in text can be extremely nuanced, hence the interest in using automatic natural language processing methods for detection.
 
-\section{Existing datasets} \label{sec:existing-datasets}
+\section{Existing news datasets} \label{sec:existing-news-datasets}
 
 In this section we look at some existing datasets of news sources and news articles that have been annotated by political bias.
 
@@ -195,15 +195,13 @@ Domain adaptation (also known as cross-domain learning) is a specific case of tr
     \label{fig:domain-adaptation}
 \end{figure}
 
-\todo{emphasis on unsupervised}
-
 Daumé \& Marcu \cite{daume} initially proposed the idea of `in-domain' and `out-of-domain' data, and applied these ideas to statistical learning theory. Other early work by Blitzer et al. \cite{scl} introduced the idea of structural correspondence learning, where ``pivot features'' are selected that occur frequently in both the source and target domain, and behave similarly in both. This correspondence can then help a classifier perform a task such as POS tagging on the target domain.
 
 Pan et al. \cite{pan-sfa} proposed a spectral feature alignment algorithm that can group domain-specific words into clusters, based on the distances between the domain-independent words in the corpus. Domains-specific words are those that occur most frequently in one domain, whereas domain-independent words occur frequently in both domains. Michelbacher et al. \cite{feature-adaptation} consider domain-\{specific/independent\} features as a whole, and propose the idea of unsupervised feature adaptation for situations where no labelled target domain data is available. A classifier is trained on source domain data, and any domain-independent features are recomputed in an unsupervised fashion to align themselves with the target domain data, before being passed to the classifier to infer on the target domain data. Any domain-specific features are ignored.
 
 The above methods all rely on some manual selection of features that are ``domain independent'' i.e. occur similarly in both the source and target domain. However, recent work has aimed to remove this manual step in the transfer learning process. Myagmar et al. \cite{cdsc} explored using BERT for cross-domain sentiment classification, finding that fine-tuning BERT on the source domain and running inference on the target domain (a process known as \textit{direct transfer}) beat several pre-existing benchmarks for the task, using significantly less training data and with much faster training times in addition.
 
-Further work has been done to extend BERT for domain adaptation. Ye et al. \cite{bert-feature-adaptation} use BERT's layer weights as features in a form of feature adaptation, and Du et al. \cite{domain-aware-bert} explore adding a post-training domain-distinguishing task to BERT's fine-tuning stages, and injecting adversarial learning into BERT.
+Further work has been done to extend BERT for unsupervised domain adaptation. Ye et al. \cite{bert-feature-adaptation} use BERT's layer weights as features in a form of feature adaptation, and Du et al. \cite{domain-aware-bert} explore adding a post-training domain-distinguishing task to BERT's fine-tuning stages, and injecting adversarial learning into BERT.
 
 Han \& Eisenstein propose AdaptaBERT \cite{adaptabert}, a novel unsupervised domain adaptation approach which adds an extra stage of masked language modelling on the target domain during fine-tuning. This gives a significant performance boost to the classifier, especially on words and phrases seen at inference time that were not seen in the source domain at training time (`out-of-vocabulary' terms). AdaptaBERT yields several percentage points higher accuracy than direct transfer methods for a historical English POS tagging task, with 30\% increase in accuracy on out-of-vocabulary terms. AdaptaBERT also outperforms existing methods on a Wikipedia $ \rightarrow $ Twitter transfer learning task.
 
@@ -211,6 +209,6 @@ Gururangan et al. \cite{dont-stop-pretraining} compared this approach, which the
 
 \section{Going forward}
 
-In this chapter we have defined political bias and looked at previous work in detecting political bias in the news with NLP and machine learning. We have discovered that ensemble classifiers are under-explored for this particular problem, which we examine further in Chapter \ref{chap:ensemble-bert}, where we also directly compare existing methods of detecting bias.
+In this chapter we have defined political bias and looked at previous work in detecting political bias in the news with NLP and machine learning. We have discovered that ensemble classifiers are under-explored for this particular problem, which we examine further in Chapter \ref{chap:ensemble-bert}, where we also directly compare existing methods of detecting bias. We have also defined the related problem of readership bias and explored prior work in detecting readership bias on social media.
 
-We have also defined the related problem of readership bias and explored prior work in detecting readership bias on social media. In this project we seek to explore how domain adaptation between the domains of news articles and social media comments can be exploited to improve accuracy of political bias detection on social media. We aim to tackle Reddit specifically, however we discovered there is a significant lack of Reddit content labelled by political bias online. To remedy this, we create our own such dataset in Chapter \ref{chap:reddit-data}. We then explore domain adaptation for this problem, specifically looking at AdaptaBERT, in Chapter \ref{chap:domain-adaptation}.
+We then covered transfer learning and domain adaptation techniques. It is extremely rare to find social media content that has been annotated by political bias, due to the challenging nature of collecting annotations from real users, which is where the power of unsupervised domain adaptation comes in. Unsupervised domain adaptation methods don't need labels in the target domain, making them particularly suitable to the task of transferring between news articles and social media comments. However, for evaluation purposes we do end up needing to collected annotated social media data (see Chapter \ref{chap:reddit-data} for more on this).

@@ -1,8 +1,6 @@
-\chapter{Detecting Political Bias In News Content} \label{chap:ensemble-bert}
+\chapter{Detecting political bias in news content} \label{chap:ensemble-bert}
 
-\todo{emphasise within news}
-
-In this chapter we survey existing models to detect political bias, using the News-Media-Reliability dataset \cite{news-media-reliability}. Baly et al. already provide an SVM classifier that uses the News-Media-Reliability pre-computed features to detect bias (see Section \ref{subsec:svms}). We compare this to other popular classifiers used in literature, as well as ensemble classifiers that have not been explored previously in detail (Section \ref{sec:nmr-ensemble}). We then assemble our own dataset of raw article text, and explore using features learned automatically from the text with BERT (Section \ref{sec:nmr-bert}).
+In this chapter we survey existing models to detect political bias in the news, using the News-Media-Reliability dataset \cite{news-media-reliability}. Baly et al. already provide an SVM classifier that uses the News-Media-Reliability pre-computed features to detect bias (see Section \ref{subsec:svms}). We compare this to other popular classifiers used in literature, as well as ensemble classifiers that have not been explored previously in detail (Section \ref{sec:nmr-ensemble}). We then assemble our own dataset of raw article text, and explore using features learned automatically from the text with BERT (Section \ref{sec:nmr-bert}).
 
 \section{Using ensemble classifiers} \label{sec:nmr-ensemble}
 
@@ -41,11 +39,11 @@ There is still some class imbalance between left and right, however the overall 
 
 \subsection{Evaluation}
 
-We compare six classifiers in total: 3 non-ensemble methods (SVMs, multi-layer perceptrons and decision trees) and 3 ensemble methods (random forests, Adaboost and gradient-boosted forests). Random forests are of course an ensemble of decision trees, and Adaboost and gradient-boosted forests both implement different gradient-boosting algorithms.
+We compare six classifiers in total: SVMs, multi-layer perceptrons, decision trees, random forests, Adaboost and gradient-boosted forests. We choose these to give us a good split between 3 non-ensemble and 3 ensemble classifiers, and so that we cover ensembles that involve both bagging and boosting. Random forests are of course a bagged version of decision trees, and Adaboost and gradient-boosted forests both implement different gradient-boosting algorithms.
 
 For each experiment we use 5-fold cross validation, and within each fold we use an 80:20 train/test split. All classifiers are implemented using the Python \texttt{scikit-learn} package \cite{sklearn}, using the \texttt{GridSearchCV} method for hyperparameter tuning.
 
-Results are shown in Table \ref{tab:nmr-ensemble-results}, given to 2 decimal places. The highest performing classifier for each metric is highlighted in \textbf{bold}. We report macro-averaged F1 score, accuracy, mean absolute error (MAE) and macro-averaged mean absolute error ($ MAE^M $). $ MAE^M $ is a weighted average of errors for each class, where the weights are inversely proportional to the size of each class i.e. smaller classes' errors are upweighted more. This metric is much more robust to class imbalance than MAE.
+Results are shown in Table \ref{tab:nmr-ensemble-results}, given to 2 decimal places. We report macro-averaged F1 score, accuracy, mean absolute error (MAE) and macro-averaged mean absolute error ($ MAE^M $). $ MAE^M $ is a weighted average of errors for each class, where the weights are inversely proportional to the size of each class i.e. smaller classes' errors are upweighted more. This metric is much more robust to class imbalance than MAE.
 
 \begin{table}[h]
     \centering
@@ -53,7 +51,8 @@ Results are shown in Table \ref{tab:nmr-ensemble-results}, given to 2 decimal pl
     \begin{adjustbox}{width=1.1\textwidth,center}
     \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
         \hline
-        \textbf{Classifier} & \multicolumn{4}{|c|}{\textbf{All features}} & \multicolumn{4}{|c|}{\textbf{Only text-based features}} \\
+        \textbf{Classifier} & \multicolumn{4}{|c}{\textbf{All features}} & \multicolumn{4}{|c|}{\textbf{Only text-based features}} \\
+        \cline{2-9}
          & \textbf{Macro-F1} & \textbf{Acc.} & \textbf{MAE} & $ \textrm{\textbf{MAE}}^M $ & \textbf{Macro-F1} & \textbf{Acc.} & \textbf{MAE} & $ \textrm{\textbf{MAE}}^M $ \\
          \hline
          SVM & \textbf{67.07} & \textbf{68.76} & 0.46 & 0.50 & 64.93 & 66.27 & 0.45 & 0.48  \\
@@ -66,7 +65,7 @@ Results are shown in Table \ref{tab:nmr-ensemble-results}, given to 2 decimal pl
          \hline
     \end{tabular}
     \end{adjustbox}
-    \caption{Bias detection results using pre-computed features across different classifiers}
+    \caption{Bias detection results using pre-computed features across different classifiers. Highest performing classifier for each metric is highlighted in \textbf{bold}.}
     \label{tab:nmr-ensemble-results}
 \end{table}
 
@@ -83,7 +82,7 @@ The best hyperparameters for our SVM were RBF as the kernel function, degree of 
 
 Whereas the previous ensemble classifiers take in manually engineered features, BERT models learn the optimal features straight from the raw text. We therefore create our own dataset of news article text (including headline and article body text). These were scraped from the web using an open source tool called \texttt{NewsScraper} \cite{newsscraper}, which is based off of the Python \texttt{newspaper} \cite{newspaper-python} package.
 
-We scrape from all news sources present in the News-Media-Reliability dataset. After class merging from Section \ref{sec:nmr-ensemble} we have 732 sources to consider. Many of these sources use front-end code formats NewsScraper cannot parse - NewsScraper only managed to scrape articles from 432 of these news sources. We collect a maximum of 5 articles per news source, giving us a total of 1654 news articles (note that not all news sites had 5 available articles to scrape). For each article we store the article headline, article body text, and the political bias label for this news source as given by Media Bias/Fact Check (\textit{left}, \textit{center} or \textit{right}). A portion of the dataset is shown in Figure \ref{fig:nmr-bert-data}. The distribution of classes is shown in Table \ref{tab:nmr-bert-data-classes} - there are a significant amount more right-wing articles than center or left articles.
+We scrape from all news sources present in the News-Media-Reliability dataset. After class merging from Section \ref{sec:nmr-ensemble} we have 732 sources to consider. Many of these sources use front-end code formats NewsScraper cannot parse - NewsScraper only managed to scrape articles from 432 of these news sources. We collect a maximum of 5 articles per news source, giving us a total of 1654 news articles (note that not all news sites had 5 articles available to scrape). For each article we store the article headline, article body text, and the political bias label for this news source as given by Media Bias/Fact Check (\textit{left}, \textit{center} or \textit{right}). A portion of the dataset is shown in Figure \ref{fig:nmr-bert-data}. The distribution of classes is shown in Table \ref{tab:nmr-bert-data-classes} - there are a significant amount more right-wing articles than center or left articles.
 
 \begin{table}[h]
     \centering
@@ -151,8 +150,6 @@ We use the \texttt{AdamW} \cite{adamw} optimiser, with a learning rate of $ 2 \c
 
 Evaluation metrics comparing the 3 different input types described in the previous section are shown in Figure \ref{fig:nmr-accuracy-f1}.
 
-\todo{compare to earlier classifiers}
-
 \begin{figure}
     \centering
     \includegraphics[scale=0.3]{0-img/nmr-accuracy-f1.png}
@@ -177,7 +174,9 @@ We also explore using RoBERTa for sequence classification, a version of BERT tha
 
 Chun et al. report an accuracy of 89\% when using BERT to detect political bias in the Russian Troll dataset \cite{russian-troll}, a collection of tweets posted by Russian troll accounts. Our highest accuracy of 61\% is much lower than this. One reason for this discrepancy could be availability of training data - the Russian Troll dataset contains around 3 million tweets, whereas our dataset is very small in comparison, consisting of only 1654 text samples.
 
-Building off the RoBERTa idea, further work could be done examining BERT models pre-trained via predicting bias in text, on top of MLM and NSP, to see if this improves bias detection. We could also explore applying BERT to a much larger dataset - while our self-assembled dataset contains high-quality raw article text, it contains a very small number of text samples compared to other datasets explored in previous literature.
+Compared to our classifiers in Section \ref{sec:nmr-ensemble}, the performance of our BERT classifiers seems to be slightly worse. We achieve F1 scores in the range of 55-60\% with BERT, whereas SVMs and gradient boosted trees were able to achieve F1 scores of 65-67\%. This could be to do with the featureset used in Section \ref{sec:nmr-ensemble} - the News-Media-Reliability textual features used are custom features based off of the structure of the text, sentiment scores, language bias analysis and also complexity of the text. This shows this complex featureset yields higher classifier performance than models that just look at the raw text such as BERT. However the authors do not publish exactly how they computed their custom feautures, meaning future work on detecting bias with that featureset would be restricted to only the news sources they computed features for.
+
+Building off the RoBERTa idea, further work could be done examining BERT models pre-trained via a political bias detection task, on top of the MLM and NSP tasks, to see if this improves bias detection. We could also explore applying BERT to a much larger dataset - while our self-assembled dataset contains high-quality raw article text, it contains a very small number of text samples compared to other datasets explored in previous literature.
 
 One point to note is that BERT models split tokens up using a subword-level vocabulary, created using the Wordpiece \cite{wordpiece} algorithm. Names therefore get split into subwords after tokenisation, e.g. ``biden'' becomes [`bid', `\#\#en'] and ``covid'' becomes [`co', `\#\#vid']. This could limit the effectiveness of names within the BERT model, since the model will treat the `bid' and `co' tokens just like any other instances of those words in the text. We find that ``biden'' occurs 2,696 times in the dataset, but the `bid' token otherwise only occurs 11 times, so this is not a huge problem in this case. However, ``covid'' occurs 1,201 times in the dataset and the `co' token otherwise occurs another 529 times, which could lead to confusion in the BERT model. Other weaknesses of Wordpiece tokenisation have been explored previously \cite{wordpiece-weaknesses}.
 
