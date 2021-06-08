@@ -31,12 +31,15 @@
 % increase height of each row in table relative to default height
 \renewcommand{\arraystretch}{1.2}
 
+% use subfigures
+\usepackage{subcaption}
+
 % typesetting algorithms
 \usepackage{algorithm} 
 \usepackage{algpseudocode}
 
-% use subfigures
-\usepackage{subcaption}
+% Change \Forall so that it prints 'for each' in algorithms
+\renewcommand{\algorithmicforall}{\textbf{for each}}
 
 % checks for unused references
 %\usepackage{refcheck}
