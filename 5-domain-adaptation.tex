@@ -1,6 +1,6 @@
 \chapter{Exploring unsupervised domain adaptation techniques} \label{chap:domain-adaptation}
 
-In this chapter we explore domain adaptation methods for detecting political bias in Reddit comments, using the cross-domain dataset developed in Chapter \ref{chap:reddit-data}. We consider a direct transfer approach, and an approach using a state-of-the-art domain-adaptive BERT model called AdaptaBERT.
+In this chapter we explore unsupervised domain adaptation methods for detecting political bias in Reddit comments, using the cross-domain dataset developed in Chapter \ref{chap:reddit-data}. We consider a direct transfer approach, and an approach using a state-of-the-art domain-adaptive BERT model called AdaptaBERT.
 
 \section{Notation}
 
@@ -21,7 +21,7 @@ We denote a standard classifier for domain $ B $ as an \textit{in-domain} model 
 
 Using our cross-domain Reddit dataset, we will evaluate direct transfer of news articles $ \rightarrow $ comments, and also transfer of comments $ \rightarrow $ news articles. The latter is influenced by the discussion in Section \ref{subsec:readership-bias-social-media} as to whether bias in the news source determines readership bias, or whether bias in the source's audience influences biases in the articles the source produces. Evaluating this transfer will help us see if audience reaction is a good predictor of news article bias. We compare these transfer models against in-domain models for articles and comments.
 
-We use BERT sequence classification models for all of the above. With BERT direct transfer models, pre-training is performed as with standard BERT - on a large amount of English language text sourced from BookCorpus and Wikipedia. Fine-tuning is performed on the source domain, and then inference is performed on the target domain. See Figure \ref{fig:direct-transfer-in-domain-bert} for a diagram comparing direct transfer and in-domain BERT models. The training objective at each stage is shown in bold, with the domain being trained on underneath.
+We use BERT sequence classification models for all of the above. With BERT direct transfer models, pre-training is performed in the same way as for standard BERT - on a large amount of English language text sourced from BookCorpus and Wikipedia. Fine-tuning is performed on the source domain, and then inference is performed on the target domain. See Figure \ref{fig:direct-transfer-in-domain-bert} for a diagram comparing direct transfer and in-domain BERT models. The training objective at each stage is shown in bold, with the domain being trained on underneath.
 
 \begin{figure}
     \centering
@@ -37,7 +37,7 @@ From Section \ref{sec:domain-similarity}, we identified 3 textual domains in our
 
 We use a very similar BERT setup to our experiments in Section \ref{sec:nmr-bert}. We use a BERT model for sequence classification based on \texttt{bert-base-uncased}, and perform text preprocessing in a similar fashion. In terms of stopword removal, we use NLTK's built-in list of stopwords instead of the more minimalist approach taken earlier. For in-domain models, we use a train/validation/test split of 70:10:20. For direct transfer models, we use a 70:10:20 train/validation/test split on the source domain, after which we use the model to infer over the entire target domain. After tuning hyperparameters we achieve highest accuracies with 5 epochs of training and a batch size of 10.
 
-We evaluate articles $ \rightarrow $ comments direct transfer against a comments in-domain model, and comments $ \rightarrow $ articles direct transfer against an articles in-domain model. We report macro-averaged F1 score and accuracy for all 4 models. Results are shown in Table \ref{tab:direct-transfer-results}.
+We evaluate articles $ \rightarrow $ comments direct transfer against an in-domain comments model, and comments $ \rightarrow $ articles direct transfer against an in-domain articles model. We report macro-averaged F1 score and accuracy for all 4 models. Results are shown in Table \ref{tab:direct-transfer-results}.
 
 \begin{table}[ht]
     \centering
