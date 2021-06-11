@@ -1,4 +1,4 @@
-\chapter{Conclusion, Evaluation, Ethical Issues \& Future Work}
+\chapter{Conclusion \& Future Work}
 
 \section{Conclusion}
 
@@ -6,23 +6,38 @@ In this project we set out to explore if transfer learning, specifically domain 
 
 For our domain adaptation task, we created our own dataset of news articles and Reddit comments annotated by political bias, making sure to preserve data quality by ensuring high-quality annotations, avoiding concept drift and resolving class imbalance. Examining similarities between the domains in our dataset, we found fairly high similarity between news article and comment text, lending weight to the hypothesis that domain adaptation can improve bias detection in these domains.
 
-We then explored a direct transfer approach and an approach using AdaptaBERT for unsupervised domain adaptation from news content to social media content, and also from social media content to news. We found that in both cases domain adaptation cannot quite reach the classification performance of standard in-domain models, however the transfer from comments to news was able to reach within 7\% of the F1 score of an in-domain model. This signifies that readers' reactions to news articles can be a good predictor of the bias of the article itself.
+We then explored a direct transfer approach and an approach using AdaptaBERT for unsupervised domain adaptation from news content to social media content, and also from social media content to news. We found that in both cases domain adaptation cannot quite reach the classification performance of standard in-domain models, however the transfer from comments to news was able to reach within 2\% of the F1 score of an in-domain model. This signifies that readers' reactions to news articles can be a good predictor of the bias of the article itself.
 
 We also found AdaptaBERT does not significantly improve over simple direct transfer. We investigate extending AdaptaBERT with an extra Next Sentence Prediction stage, originally used in BERT pre-training, to see if this improves classification performance. We find that it improves F1 score by 8\% in news to comments transfer, and by around 1\% for the reverse transfer. However, it still doesn't beat the in-domain baselines. For a named entity recognition task, it improves on F1 score by around 3\% compared to previous research. We have therefore achieved a significant improvement over standard AdaptaBERT, although there is still scope for much further work in this field.
 
-\section{Evaluation}
-
-Reddit subreddit titles (which form our annotations) all follow US political scale roughly
-
 \section{Ethical Issues}
+
+The output of our models are not sensitive data. They only predict a political class (e.g. left, center or right) for particular news articles or comments. 
+
+Our project doesn't involve collecting any personal data from Reddit users - all information is collected through the public Reddit API. We don't make use of author information from comments in any way. The API doesn't expose any sensitive data anyway, only username and account age are exposed.
+
+
+
+There are a number of ethical issues involved in our research.
+
+Someone could take our bias detectors and use them on comments all from one person to determine that person's political leaning.
+
+In using Reddit comments as a predictor for political bias in the wider news context, our model may unknowingly be biased towards writing styles used by the demographics in our dataset. Reddit is known to have a mainly young, American, white and male userbase, and so a bias detection classifier trained on Reddit text such as ours may start to mispredict if it comes across news or comments with writing styles different to those used by this demographic online. 
+
+This risk increases with large language models such as BERT, which are pre-trained on huge amounts of data. 
+
+Reddit demographics
+
+
+https://www.journalism.org/2016/02/25/reddit-news-users-more-likely-to-be-male-young-and-digital-in-their-news-preferences/
+
+work has focused on examining data that feeds into large language models such as BERT
 
 
 wanted to find bias per user, but data protection stuff
 
 taking biases learnt from comments and transferring them to news source detection - unneeded influence
 
-
-\todo{write an up to date version}
 
 For all information we collect we must abide by the Data Protection Act (DPA) 2018 \cite{dpa}, which sets out UK GDPR rules. In this project we do not manually collect any private data relating to Reddit users - all data we use is exposed publicly by the Reddit API. However for all comments we collect, the author's Reddit username is also collected as part of the API response. This legally counts as storing sensitive personal information under the DPA, however we mitigate this issue by discarding Reddit usernames from our dataset as soon as possible, since it is not relevant to our research. We don't infer any political bias on a per-user basis, however if we did we would have to be careful not to publish this association anywhere (for obvious reasons).
 
