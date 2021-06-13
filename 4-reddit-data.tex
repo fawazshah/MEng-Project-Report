@@ -157,7 +157,7 @@ The distribution of subreddits in our dataset is shown in Table \ref{tab:subredd
 
 Since we are storing cross-domain data for the purpose of comparing between textual domains, we must make sure to keep all other possible variables constant across all our data (e.g. time, geography), so we don't inadvertently introduce other relationships into our data. This is known as ``concept drift'' \cite{concept-drift}.
 
-We keep time domain the same across all data by only selecting posts from the current year (see Algorithm \ref{alg:reddit-data-collection}). We also keep geographical domain the same across all content by selecting only from mainly US-based subreddits (see Table \ref{tab:subreddit-list}). In fact this restriction does not matter too much, since over 70\% of Reddit users are based in the US anyway \cite{sattelberg}.
+We keep time domain the same across all data by only selecting posts from the current year (see Algorithm \ref{alg:reddit-data-collection}). We also keep geographical domain the same across all content by selecting only from mainly US-based subreddits (see Table \ref{tab:subreddit-list}). In fact this restriction does not matter too much, since over 70\% of Reddit users are based in the USA \cite{sattelberg}.
 
 \section{Data sources}
 
@@ -171,15 +171,15 @@ On top of this, the main benefit of the Reddit API is that the top $ n $ posts o
 
 In order to assess the viability of domain adaptation between the domains in our dataset, we look at the similarity between the domains. We model our dataset as containing 3 textual domains - article headlines, article body text, and Reddit comment text.
 
-We compare the Jaccard distance between vocabularies in each domain, which will show us how many words are shared between the domains. For any two sets of words $ A $ and $ B $, the Jaccard distance between them is formulated as:
+Jaccard distance is often used as a similarity metric comparing two sets. For any two sets of words $ A $ and $ B $, the Jaccard distance between them is formulated as:
 
 \begin{equation}
     J(A, B) = \frac{|A \cap B|}{|A \cup B|}
 \end{equation}
 
-i.e. the number of words shared divided by the total number of words in both sets. Therefore Jaccard distance is always between 0 and 1 inclusive, where 0 indicates zero similarity between the two sets and 1 indicates perfect similarity (i.e. the sets are identical).
+i.e. the number of words shared divided by the total number of words in both sets. Jaccard distance is always between 0 and 1 inclusive, where 0 indicates zero similarity (i.e. no words are shared between the two sets) and 1 indicates perfect similarity (i.e. the sets are identical).
 
-The Jaccard distances between each possible pairing of domains are shown in Table \ref{tab:jaccard-distances}, to 3 s.f. We can see that the similarity between headlines and both other domains is very low. This is surprising - we would expect headlines and bodies to share a similar vocabulary since any article headline will have been derived from its corresponding body text, from the same author and for the same news source, and so we would expect language used to be similar. However, there is a significant similarity between article body text and Reddit comments, suggesting these domains are good candidates for domain adaptation. This is explored further in Chapter \ref{chap:domain-adaptation}.
+We compare the Jaccard distances between vocabularies in each domain, which will show us how many words are shared between the domains. The Jaccard distances between each possible pairing of domains are shown in Table \ref{tab:jaccard-distances}, to 3 s.f. We can see that the similarity between headlines and both other domains is very low. This is surprising - we would expect headlines and bodies to share a similar vocabulary since any article headline will of course have been derived from its corresponding body text. However, there is a significant similarity between article body text and Reddit comments, suggesting these domains are good candidates for domain adaptation. This is explored further in Chapter \ref{chap:domain-adaptation}.
 
 \begin{table}[ht]
     \centering
@@ -196,7 +196,7 @@ The Jaccard distances between each possible pairing of domains are shown in Tabl
     \label{tab:jaccard-distances}
 \end{table}
 
-A Venn diagram showing overlap between vocabularies of the 3 domains is shown in Figure \ref{fig:vocab-venn-diagram}, with the size of each set depicted. We can see a large overlap of 159,472 words between article body and comment vocabularies, thus the high Jaccard distance between these 2 domains. However, there are still a large number of words in the article body and comment vocabularies that don't overlap with any other vocabularies (130,123 and 80,594 respectively). Almost all words in article headlines also appear in both article bodies and Reddit comments, however the large sizes of the latter two domain vocabularies leads to the very low Jaccard distance between headlines and these domains.
+A Venn diagram showing overlap between vocabularies of the 3 domains is shown in Figure \ref{fig:vocab-venn-diagram}, with the size of each set labelled. We can see a large overlap of 159,472 words between article body and comment vocabularies, thus the high Jaccard distance between these 2 domains. However, there are still a large number of words in the article body and comment vocabularies that don't overlap with any other vocabularies (130,123 and 80,594 respectively).
 
 \begin{figure}[ht]
     \centering
