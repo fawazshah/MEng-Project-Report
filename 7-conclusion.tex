@@ -12,45 +12,24 @@ Significant work still needs to be done in the field of unsupervised domain adap
 
 \section{Ethical Issues}
 
-The output of our models are not sensitive data. They only predict a political class (e.g. left, center or right) for particular news articles or comments. 
+With regards to data protection, our project does not involve collecting any personal data from Reddit users - all information is collected via the public Reddit API, and we immediately discard comment author information from our datasets before running our models, since we don't make use of this information in any way. An earlier project idea involved analysing the distribution of left-wing and right-wing users across various subreddits - this would involve inferring political affiliations on a per-user basis, which counts as processing `special-category' data under the UK Data Protection Act (DPA) 2018 \cite{dpa}. In this case we would need to take extra precautions when storing and processing this sensitive information.
 
-Our project doesn't involve collecting any personal data from Reddit users - all information is collected through the public Reddit API. We don't make use of author information from comments in any way. The API doesn't expose any sensitive data anyway, only username and account age are exposed.
+One issue is that a third party could take our bias detectors and apply them on comments all from one social media user to determine that user's political leaning, which would of course be inferring sensitive data. This kind of privacy attack could be performed with any bias-detection machine learning model. If our model were deployed in a production environment, we could limit this kind of attack by placing our model behind a query-based interface and limiting the number of queries that can be placed.
 
+In using Reddit comments as a predictor for political bias in the wider news context, our model may unknowingly be biased towards writing styles used by the demographics in our dataset. Reddit is known to have a mainly young, American, white and male userbase \cite{pew-reddit-demographics}, and so a bias detection classifier trained on Reddit text such as ours may start to mispredict if it comes across news or comments with writing styles different to those used by this demographic online. 
 
-
-There are a number of ethical issues involved in our research.
-
-Someone could take our bias detectors and use them on comments all from one person to determine that person's political leaning.
-
-In using Reddit comments as a predictor for political bias in the wider news context, our model may unknowingly be biased towards writing styles used by the demographics in our dataset. Reddit is known to have a mainly young, American, white and male userbase, and so a bias detection classifier trained on Reddit text such as ours may start to mispredict if it comes across news or comments with writing styles different to those used by this demographic online. 
-
-This risk increases with large language models such as BERT, which are pre-trained on huge amounts of data. 
-
-Reddit demographics
-
-
-https://www.journalism.org/2016/02/25/reddit-news-users-more-likely-to-be-male-young-and-digital-in-their-news-preferences/
-
-work has focused on examining data that feeds into large language models such as BERT
-
-
-wanted to find bias per user, but data protection stuff
-
-taking biases learnt from comments and transferring them to news source detection - unneeded influence
-
-
-For all information we collect we must abide by the Data Protection Act (DPA) 2018 \cite{dpa}, which sets out UK GDPR rules. In this project we do not manually collect any private data relating to Reddit users - all data we use is exposed publicly by the Reddit API. However for all comments we collect, the author's Reddit username is also collected as part of the API response. This legally counts as storing sensitive personal information under the DPA, however we mitigate this issue by discarding Reddit usernames from our dataset as soon as possible, since it is not relevant to our research. We don't infer any political bias on a per-user basis, however if we did we would have to be careful not to publish this association anywhere (for obvious reasons).
-
-For others to use our model in production systems we would need to verify our models are unbiased. Machine learning models are often black-box models - verifying what behaviour occurs inside ML models is an open research topic, and so we can never say for sure that our models are completely unbiased. We could however compare against manually-annotated data to see where bias in our models might lie.
-
-
-biased data -> biased model
-
-gebru, reddit
-https://dl.acm.org/doi/abs/10.1145/3351095.3372829
-
+This risk is increased when using large language models such as BERT, which are pre-trained on huge amounts of data - very little is understood about the exact mechanisms BERT uses during training to ensure classification success \cite{bert-dark-secrets}. Jo \& Gebru \cite{gebru} carried out a case study on GPT-2, a large language model similar to BERT, and its pre-training corpus of Reddit data. They noted Reddit's demographics are not representative of demographics in the wider world, and due consideration of this had not been taken by the GPT-2 creators before publishing their model. We have attempted to publish significant information about our Reddit dataset in Chapter \ref{chap:reddit-data}, including which subreddits we sourced information from and how much data from each subreddit, to make our training data collection methodology more transparent.
 
 \section{Future Work}
+
+In this section we propose several ideas for future work that could take this research further.
+
+\begin{itemize}
+    \item \textbf{Collecting more training data} - Our cross-domain Reddit dataset is fairly small, with 806 news articles and 11,954 Reddit comments. Our research would be made much more reliable with a larger collection of news articles in our dataset, plus a wider range of politically-themed subreddits to source comments from. Many of the posts we scraped from Reddit were actually links to screenshots of news articles and tweets rather than actual articles, which we discarded - keeping these screenshots and extracting text from them would also give us access to much more Reddit training data.
+    \item \textbf{Testing more modern classifiers} - We chose BERT models for our experiments in Chapters \ref{chap:domain-adaptation} and \ref{chap:extending-adaptabert} since BERT performs feature extraction automatically, and still provides good classification performance for detecting political bias as seen in Chapter \ref{chap:ensemble-bert}. Further language models, such as XLNet \cite{xlnet}, claim to improve upon BERT's performance significantly, and so assessing their performance on this political bias detection task may yield superior results.
+    \item \textbf{Assessing non-political subreddits} - In this project we only considered politically-themed subreddits to train our classifier. Kane \& Luo \cite{kane} explored whether non-political subreddits still exhibit some unconscious political leaning, using topic modelling with Latent Dirichlet Allocation. Using our classifiers trained on political subreddit data, we could examine the same task but with a transfer learning approach, to see if our results differ from Kane \& Luo's.
+    \item \textbf{Browser extension for assessing echo chambers} - An online echo chamber is an environment where a person only encounters information that reflects and reinforces their own opinions \cite{echo-chambers}. Social media users nowadays are more aware of how echo chambers can affect their point of view. By developing a browser extension that can analyse the text on screen for political bias, social media users can examine how the content they see on social media is politically oriented, to see if they are victim to an echo chamber.
+\end{itemize}
 
 Exploring bias in tabloids vs broadsheets
 
@@ -59,6 +38,12 @@ Further work on Reddit:
     \item Compare Reddit political scale to various countries' political scales (e.g. does it most align with the US scale?)
     \item Look at bias across time
 \end{itemize}
+
+Extract word embeddings from BERT and use in SVM or other classifier, we just use BERTForSequenceClassification
+
+Try other classifiers that aren't BERT (Dark Secrets of BERT) - maybe XLNet?
+
+Multi-modal approach taking images from Reddit or Twitter - lots (how many?) of scraped links were actually to photos
 
 Explore effect of NSP addition to AdaptaBERT for other problems (question answering, natural language inference)
 
