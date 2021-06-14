@@ -49,20 +49,20 @@
 
 \begin{abstract}
 
-Identifying political bias on social media provides incredibly useful insights for analysts who wish to quantify political sentiment online, and tackle problems with social media such as filter bubbles and echo chambers. However, identifying political bias on social media with traditional supervised machine learning is incredibly difficult due to the lack of annotated data available.
+Identifying political bias on social media provides useful insights for analysts who want to quantify political sentiment online, and explore problems on social media such as filter bubbles and echo chambers. However, tackling this task with traditional supervised machine learning is incredibly difficult due to the lack of annotated data available.
 
-In this project we explore whether transfer learning from 
+In this project we explore using transfer learning to detect political bias on social media, with knowledge learnt from bias in news content. We specifically look at unsupervised domain adaptation - a class of techniques developed specifically for when no labelled data exists for the target problem. We explore `direct' transfer learning followed by a state-of-the-art domain-adaptive version of BERT called AdaptaBERT, finding these do not improve over standard classifiers. We then propose an extension to AdaptaBERT involving an extra Next Sentence Prediction fine-tuning stage. We find this does not improve classification performance for the political bias detection task, but provides a 2.5\% improvement in F1 score for a named entity recognition task.
+
+Significant further work is needed to help transfer learning classifiers reach the same performance as standard supervised classifiers, with the hope that they can exceed performance in the future.
 
 \end{abstract}
 
 \renewcommand{\abstractname}{Acknowledgements}
 \begin{abstract}
 
-Firstly, I would like to thank \texttt{lofi hip hop radio - beats to relax/study to} for giving me the motivation to continue
+Firstly I would like to thank my supervisor Dr Anandha Gopalan for his continuous guidance, enthusiasm and support throughout the project, during what has been a tough year.
 
-Firstly I would like to thank my supervisor Dr Anandha Gopalan for his continuous guidance, enthusiasm and support throughout the project, during what has been a  year.
-
-Further, I want to thank everyone who I've had the pleasure of being friends with in the last 4 years. I especially owe a great deal to Andy, Subhash, and Inara for proof-reading my report, as well as Arjun, Zélie and the \textit{Lit Times} squad for keeping me motivated through this pandemic.
+Further, I want to thank everyone who I've had the pleasure of being friends with in the last 4 years. I especially owe a great deal to Andy, Subhash, and Inara for proof-reading my report, as well as Arjun, Zélie and the rest of the \textit{Lit Times} squad for keeping me motivated through this pandemic.
 
 Finally I want to thank my amazing family for their endless love and encouragement through my entire degree. I wouldn't be where I am today without them.
 

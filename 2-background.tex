@@ -53,25 +53,25 @@ Baly et al., as part of their analysis on detecting political bias \cite{baly-em
         \hline
         \textbf{Category} & \textbf{Feature} & \textbf{Description} \\
         \hline
-        Site traffic & alexa & Alexa ranking \\
+        Site traffic & \texttt{alexa} & Alexa ranking \\
         \hline
-        URL & url\_structure & Site URL \\
+        URL & \texttt{url\_structure} & Site URL \\
         \hline
-        \multirow{2}{4em}{Articles} & articles\_title\_glove & Article headline features \\
-        & articles\_body\_glove & Article body features \\
+        \multirow{2}{4em}{Articles} & \texttt{articles\_title\_glove} & Article headline features \\
+        & \texttt{articles\_body\_glove} & Article body features \\
         \hline
-        \multirow{7}{4em}{Twitter} & has\_twitter & Whether site has Twitter or not \\
-        & twitter\_created\_at & Year Twitter account was created \\
-        & twitter\_description & Twitter account biography \\
-        & twitter\_engagement & Twitter user engagement metrics \\
-        & twitter\_haslocation & Whether site has location in their Twitter biography or not \\
-        & twitter\_urlmatch & Whether Twitter account contains a link to the site URL \\
-        & twitter\_verified & Whether Twitter account is verified or not \\
+        \multirow{7}{4em}{Twitter} & \texttt{has\_twitter} & Whether site has Twitter or not \\
+        & \texttt{twitter\_created\_at} & Year Twitter account was created \\
+        & \texttt{twitter\_description} & Twitter account biography \\
+        & \texttt{twitter\_engagement} & Twitter user engagement metrics \\
+        & \texttt{twitter\_haslocation} & Whether site has location in their Twitter biography or not \\
+        & \texttt{twitter\_urlmatch} & Whether Twitter account contains a link to the site URL \\
+        & \texttt{twitter\_verified} & Whether Twitter account is verified or not \\
         \hline
-        \multirow{4}{4em}{Wikipedia} & wikipedia\_categories & Wikipedia page categories features \\
-        & wikipedia\_content & Wikipedia page content features \\
-        & wikipedia\_summary & Wikipedia page summary features \\
-        & wikipedia\_toc &  Wikipedia page table of contents features \\
+        \multirow{4}{4em}{Wikipedia} & \texttt{wikipedia\_categories} & Wikipedia page categories features \\
+        & \texttt{wikipedia\_content} & Wikipedia page content features \\
+        & \texttt{wikipedia\_summary} & Wikipedia page summary features \\
+        & \texttt{wikipedia\_toc} &  Wikipedia page table of contents features \\
         \hline
     \end{tabular}
     \caption{Engineered features in the News-Media-Reliability dataset}
@@ -112,8 +112,8 @@ BERT (Bidirectional Encoder Representations from Transformers) \cite{bert} is a 
 
 BERT is a stack of encoder models that utilises semi-supervised learning. This means BERT models are often pre-trained for use with a particular language, e.g. English, and then fine-tuned for a particular NLP task. Fine-tuning is often fast, as the main bulk of training is performed in pre-training. Pre-training involves two tasks:
 \begin{itemize}
-    \item \textbf{Masked Language Modelling (MLM)} - random words in the input text are replaced with \texttt{[MASK]} tokens, and BERT is trained to predict the missing words. This helps BERT understand bi-directional context between words in a single sentence.
-    \item \textbf{Next Sentence Prediction (NSP)} - BERT takes in two sentences A and B, and determines whether sentence B actually follows sentence A in the text or not. This helps BERT understand context across lots of sentences.
+    \item \textbf{Masked Language Modelling (MLM)} - random words in the training corpus are replaced with \texttt{[MASK]} tokens, and BERT is trained to predict the missing words. This helps BERT understand bi-directional context between words in a single sentence.
+    \item \textbf{Next Sentence Prediction (NSP)} - BERT takes in two sentences A and B, and determines whether sentence B actually follows sentence A in the training corpus or not. This helps BERT understand context across lots of sentences.
 \end{itemize}
 
 A diagram of BERT during both pre-training and fine-tuning is shown in Figure \ref{fig:bert-pretraining-finetuning}. During pre-training, BERT generates its own contextualised word embeddings which it then uses throughout the encoder stack. BERT models come in varying sizes, the most popular being `base' and `large'. The base model contains 12 layers with each hidden layer containing 768 neurons, and gives 110M trainable parameters overall. The large model contains 24 layers each with 1024 neurons, and gives 340M trainable parameters. The large model often produces better results than base for popular benchmarks in sequence classification, question answering and other common NLP tasks, however it requires much more memory to train.
@@ -136,7 +136,7 @@ Reddit is one of the most popular social media platforms today, with over 430 mi
 \begin{figure}
     \centering
     \includegraphics[scale=0.27]{0-img/annotated-reddit-post.png}
-    \caption{The anatomy of a typical Reddit post}
+    \caption{The anatomy of a typical Reddit post (image taken from r/Liberal \cite{trump-iron-grip})}
     \label{fig:annotated-reddit-post}
 \end{figure}
 
@@ -211,4 +211,4 @@ Gururangan et al. \cite{dont-stop-pretraining} compared this approach, which the
 
 In this chapter we have defined political bias and looked at previous work in detecting political bias in the news with NLP and machine learning. We have discovered that ensemble classifiers are under-explored for this particular problem, which we examine further in Chapter \ref{chap:ensemble-bert}, where we also directly compare existing methods of detecting bias. We have also defined the related problem of readership bias and explored prior work in detecting readership bias on social media.
 
-We then covered transfer learning and domain adaptation techniques. It is extremely rare to find social media content that has been annotated by political bias, due to the challenging nature of collecting annotations from real users, which is where the power of unsupervised domain adaptation comes in. Unsupervised domain adaptation methods don't need labels in the target domain, making them particularly suitable to the task of transferring between news articles and social media comments. However, for evaluation purposes we do end up needing to collected annotated social media data (see Chapter \ref{chap:reddit-data} for more on this).
+We then covered transfer learning and domain adaptation techniques. It is extremely rare to find social media content that has been annotated by political bias, due to the challenging nature of collecting annotations from real users, which is where the power of unsupervised domain adaptation comes in. Unsupervised domain adaptation methods don't need labels in the target domain, making them particularly suitable to the task of transferring between news articles and social media comments. However, for evaluation purposes we do require annotated social media data (see Chapter \ref{chap:reddit-data} for more on this).

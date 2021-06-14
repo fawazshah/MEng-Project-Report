@@ -39,7 +39,7 @@ We use BERT sequence classification models for all of the above. With BERT direc
     \label{fig:direct-transfer-in-domain-bert}
 \end{figure}
 
-\subsection{Experimental setup + evaluation}
+\subsection{Experimental setup and evaluation}
 
 We use a BERT model for sequence classification based on \texttt{bert-base-uncased}, and perform text preprocessing in a similar fashion to our experiments in Section \ref{sec:nmr-bert}. We also use a train/validation/test split of 70:10:20 to match our Section \ref{sec:nmr-bert} experiments. After tuning hyperparameters we achieve highest accuracies with 5 epochs of training and a batch size of 10.
 
@@ -78,7 +78,7 @@ Beyond direct transfer BERT models, we explore a more modern method called Adapt
 
 Standard BERT models are trained for masked language modelling (MLM) and next sentence prediction (NSP) during pre-training, and then are fine-tuned for the task at hand (in our case, sequence classification). In the direct transfer case, this fine-tuning occurs only on the source domain. AdaptaBERT adds an extra fine-tuning step where another round of MLM is performed, but on a combination of the source domain and the target domain. This helps attune BERT's internal contextualised word embeddings to words in the target domain, and yields significantly better performance than direct transfer for the tasks of POS tagging and named entity recognition \cite{adaptabert}, especially on `out-of-vocabulary' (OOV) terms - words seen at inference time in the target domain that were not seen during training.
 
-The new MLM stage is applied to a dataset containing all target domain data available, and an equal amount of source domain data (if the source domain dataset is smaller than the target domain dataset, all source domain data is used). 10 instances of each sample in this dataset are created, each with 15\% of the tokens replaced with [MASK] tokens, following the same procedure as in the original BERT paper \cite{bert}. The model is then trained to predict each masked word.
+The new MLM stage is applied to a dataset containing all target domain data available, and an equal amount of source domain data (if the source domain dataset is smaller than the target domain dataset, all source domain data is used). 10 instances of each sample in this dataset are created, each with 15\% of the tokens replaced with \texttt{[MASK]} tokens, following the same procedure as in the original BERT paper \cite{bert}. The model is then trained to predict each masked word.
 
 \begin{figure}[ht]
     \centering
@@ -92,7 +92,7 @@ A diagram comparing the AdaptaBERT approach to direct transfer and in-domain app
 
 In Section \ref{sec:domain-similarity} we found the Jaccard distance between articles and comments in our dataset was 0.44, indicating good scope for domain adaptation due to a shared vocabulary. However, each of these domains also has a large amount of OOV terms (130,123 for articles and 80,594 for comments). Therefore, our hypothesis is that AdaptaBERT will improve classification performance dramatically over direct transfer.
 
-\subsection{Experimental setup + evaluation} \label{subsec:adaptabert-evaluation}
+\subsection{Experimental setup and evaluation} \label{subsec:adaptabert-evaluation}
 
 We modify the code provided by the authors to run AdaptaBERT on our cross-domain Reddit dataset \cite{adaptabert-code}. The new MLM stage is very memory-intensive - we are limited to maximum sequence lengths of 128 tokens instead of the standard 512, as beyond this requires more memory than our hardware can supply. We use a learning rate of $ 5 \cdot 10^{-5} $ and a linear learning rate warm-up period of 10\% of training time as in the AdaptaBERT paper. However we find training with a batch size of 32 for 5 epochs for both the MLM and sequence classification fine-tuning tasks yields better results than the batch size of 64 for 3 epochs as used in the original paper.
 
