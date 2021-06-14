@@ -22,28 +22,21 @@ This risk is increased when using large language models such as BERT, which are 
 
 \section{Future Work}
 
-In this section we propose several ideas for future work that could take this research further.
+In this section we propose several ideas for future work that could take our research further.
 
 \begin{itemize}
-    \item \textbf{Collecting more training data} - Our cross-domain Reddit dataset is fairly small, with 806 news articles and 11,954 Reddit comments. Our research would be made much more reliable with a larger collection of news articles in our dataset, plus a wider range of politically-themed subreddits to source comments from. Many of the posts we scraped from Reddit were actually links to screenshots of news articles and tweets rather than actual articles, which we discarded - keeping these screenshots and extracting text from them would also give us access to much more Reddit training data.
-    \item \textbf{Testing more modern classifiers} - We chose BERT models for our experiments in Chapters \ref{chap:domain-adaptation} and \ref{chap:extending-adaptabert} since BERT performs feature extraction automatically, and still provides good classification performance for detecting political bias as seen in Chapter \ref{chap:ensemble-bert}. Further language models, such as XLNet \cite{xlnet}, claim to improve upon BERT's performance significantly, and so assessing their performance on this political bias detection task may yield superior results.
-    \item \textbf{Assessing non-political subreddits} - In this project we only considered politically-themed subreddits to train our classifier. Kane \& Luo \cite{kane} explored whether non-political subreddits still exhibit some unconscious political leaning, using topic modelling with Latent Dirichlet Allocation. Using our classifiers trained on political subreddit data, we could examine the same task but with a transfer learning approach, to see if our results differ from Kane \& Luo's.
-    \item \textbf{Browser extension for assessing echo chambers} - An online echo chamber is an environment where a person only encounters information that reflects and reinforces their own opinions \cite{echo-chambers}. Social media users nowadays are more aware of how echo chambers can affect their point of view. By developing a browser extension that can analyse the text on screen for political bias, social media users can examine how the content they see on social media is politically oriented, to see if they are victim to an echo chamber.
+    \item \textbf{Collecting more training data}: Our cross-domain Reddit dataset is fairly small, with 806 news articles and 11,954 Reddit comments. Our research would be made much more reliable with a larger collection of news articles in our dataset, plus a wider range of politically-themed subreddits to source comments from. Many of the posts we scraped from Reddit were actually links to screenshots of news articles and tweets rather than actual articles, which we discarded - keeping these screenshots and extracting text from them would also give us access to much more Reddit training data.
+    \item \textbf{Exploring a multi-modal approach}: Throughout this project we only examine textual content in order to detect bias. Given that much of the data we scraped from Reddit is in image format, we could build a multi-modal model that fuses information learnt from images (e.g. with a convolutional neural network) and information learnt from the text to detect bias.
+    \item \textbf{Testing more modern classifiers}: We chose BERT models for our experiments in Chapters \ref{chap:domain-adaptation} and \ref{chap:extending-adaptabert} since BERT performs feature extraction automatically, and still provides good classification performance for detecting political bias as seen in Chapter \ref{chap:ensemble-bert}. Further language models, such as XLNet \cite{xlnet}, claim to improve upon BERT's performance significantly, and so assessing their performance on this political bias detection task may yield superior results.
+    \item \textbf{Assessing non-political subreddits}: In this project we only considered politically-themed subreddits to train our classifier. Kane \& Luo \cite{kane} explored whether non-political subreddits still exhibit some unconscious political leaning, using topic modelling with Latent Dirichlet Allocation. Using our classifiers trained on political subreddit data, we could examine the same task but with a transfer learning approach, to see if our results differ from Kane \& Luo's.
+    \item \textbf{A browser extension for assessing echo chambers}: An online echo chamber is an environment where a person only encounters information that reflects and reinforces their own opinions \cite{echo-chambers}. Social media users nowadays are more aware of how echo chambers can affect their point of view. By developing a browser extension that can analyse the text on screen for political bias using our classifiers, social media users can examine how the content they see on social media is politically oriented, to see if they are victim to an echo chamber.
+    \item \textbf{Tackling other tasks with Next Sentence Prediction}: In this project we only examined the effect of adding Next Sentence Prediction to AdaptaBERT for political bias detection and named entity recognition tasks, both of which are classification tasks. Further work could be done exploring how Next Sentence Prediction could be utilised for domain-adaptive versions of other tasks such as question answering and natural language inference.
 \end{itemize}
 
-Exploring bias in tabloids vs broadsheets
+% Exploring bias in tabloids vs broadsheets
 
-Further work on Reddit:
-\begin{itemize}
-    \item Compare Reddit political scale to various countries' political scales (e.g. does it most align with the US scale?)
-    \item Look at bias across time
-\end{itemize}
+% Compare Reddit political scale to various countries' political scales (e.g. does it most align with the US scale?)
 
-Extract word embeddings from BERT and use in SVM or other classifier, we just use BERTForSequenceClassification
+% Look at bias across time
 
-Try other classifiers that aren't BERT (Dark Secrets of BERT) - maybe XLNet?
-
-Multi-modal approach taking images from Reddit or Twitter - lots (how many?) of scraped links were actually to photos
-
-Explore effect of NSP addition to AdaptaBERT for other problems (question answering, natural language inference)
-
+% Extract word embeddings from BERT and use in SVM or other classifier, we just use BERTForSequenceClassification
