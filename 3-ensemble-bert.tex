@@ -80,7 +80,7 @@ The best hyperparameters for our SVM were RBF as the kernel function, degree of 
 
 \section{Using BERT} \label{sec:nmr-bert}
 
-Whereas the previous ensemble classifiers take in manually engineered features, BERT models learn the optimal features straight from the raw text. We therefore create our own dataset of news article text (including headline and article body text). These were scraped from the web using an open source tool called \texttt{NewsScraper} \cite{newsscraper}, which is based off of the Python \texttt{newspaper} \cite{newspaper-python} package.
+Whereas the previous ensemble classifiers take in manually engineered features, BERT models learn the optimal features straight from the raw text. We therefore create our own dataset of news article text (including headline and article body text) to use with BERT. These were scraped from the web using an open source tool called \texttt{NewsScraper} \cite{newsscraper}, which is based off of the Python \texttt{newspaper} \cite{newspaper-python} package.
 
 We scrape from all news sources present in the News-Media-Reliability dataset. After class merging from Section \ref{sec:nmr-ensemble} we have 732 sources to consider. Many of these sources use front-end code formats NewsScraper cannot parse - NewsScraper only managed to scrape articles from 432 of these news sources. We collect a maximum of 5 articles per news source, giving us a total of 1654 news articles (note that not all news sites had 5 articles available to scrape). For each article we store the article headline, article body text, and the political bias label for this news source as given by Media Bias/Fact Check (\textit{left}, \textit{center} or \textit{right}). A portion of the dataset is shown in Figure \ref{fig:nmr-bert-data}. The distribution of classes is shown in Table \ref{tab:nmr-bert-data-classes} - there are a significant amount more right-wing articles than center or left articles.
 
@@ -121,7 +121,7 @@ We encode the labels numerically as \textit{center} := 0, \textit{left} := 1, \t
 
 Our model is a BERT stack built for sequence classification i.e. with a linear layer at the end and softmax activation to assign a label to the input sequence. We use the pre-trained uncased, base model of BERT since the large model requires too much memory to train with available hardware. We include token IDs, segment IDs and attention masks extracted from the text in our model. A diagram of the model is shown in Figure \ref{fig:bert-sequence-classification}.
 
-BERT only accepts sequences of maximum 512 tokens in length, including the special [CLS] and [SEP] tokens. The maximum headline length with special tokens is 103 tokens, so headlines can be padded up to 512 tokens. However, the maximum article body length is 14,373 tokens, much longer than the limit, so we must truncate article body text to 512 tokens when passing them into BERT.
+BERT only accepts sequences of maximum 512 tokens in length, including the special \texttt{[CLS]} and \texttt{[SEP]} tokens. The maximum headline length with special tokens is 103 tokens, so headlines can be padded up to 512 tokens. However, the maximum article body length is 14,373 tokens, much longer than the limit, so we must truncate article body text to 512 tokens when passing them into BERT.
 
 \subsection{Experimental setup}
 
@@ -130,7 +130,7 @@ We run the BERT sequence classification model using:
 \begin{enumerate}
     \item only headlines
     \item only article body text
-    \item headlines and body text concatenated together i.e. ``[CLS] \{headline\} [SEP] \{body\}''
+    \item headlines and body text concatenated together i.e. ``\texttt{[CLS]} \{headline\} \texttt{[SEP]} \{body\}''
 \end{enumerate}
 
 Our hypothesis is that using article headlines to predict bias will give higher accuracy than using body text, since headlines distill the essence of the article into just a couple of lines. We also predict using a combined input formed with both headlines and body text will result in higher model accuracy, since more information is being presented to our model.
@@ -174,7 +174,8 @@ We also explore using RoBERTa for sequence classification, a version of BERT tha
 
 Chun et al. report an accuracy of 89\% when using BERT to detect political bias in the Russian Troll dataset \cite{russian-troll}, a collection of tweets posted by Russian troll accounts. Our highest accuracy of 61\% is much lower than this. One reason for this discrepancy could be availability of training data - the Russian Troll dataset contains around 3 million tweets, whereas our dataset is very small in comparison, consisting of only 1654 text samples.
 
-Compared to our classifiers in Section \ref{sec:nmr-ensemble}, the performance of our BERT classifiers seems to be slightly worse. We achieve F1 scores in the range of 55-60\% with BERT, whereas SVMs and gradient boosted trees were able to achieve F1 scores of 65-67\%. This could be to do with the featureset used in Section \ref{sec:nmr-ensemble} - the News-Media-Reliability textual features used are custom features based off of the structure of the text, sentiment scores, language bias analysis and also complexity of the text. This shows this complex featureset yields higher classifier performance than models that just look at the raw text such as BERT. However the authors do not publish exactly how they computed their custom feautures, meaning future work on detecting bias with that featureset would be restricted to only the news sources they computed features for.
+Compared to our classifiers in Section \ref{sec:nmr-ensemble}, the performance of our BERT classifiers seems to be slightly worse. We achieve F1 scores in the range of 55-60\% with BERT, whereas SVMs and gradient boosted trees were able to achieve F1 scores of 65-67\%. This could be related to the feature set used in Section \ref{sec:nmr-ensemble} - the News-Media-Reliability textual features
+are a complex set of features based off of the structure of the text, sentiment scores, language bias analysis and also complexity of the text. This feature set therefore provides the classifier much more information than what BERT can extract from raw text. However, the authors do not publish exactly how they computed their custom features, meaning future work on detecting bias with this feature set would be restricted to only the news sources they computed features for.
 
 Building off the RoBERTa idea, further work could be done examining BERT models pre-trained via a political bias detection task, on top of the MLM and NSP tasks, to see if this improves bias detection. We could also explore applying BERT to a much larger dataset - while our self-assembled dataset contains high-quality raw article text, it contains a very small number of text samples compared to other datasets explored in previous literature.
 

@@ -6,7 +6,7 @@ In Chapter \ref{chap:domain-adaptation} we described the AdaptaBERT model, and m
 
 Currently, AdaptaBERT only adds an extra masked language modelling objective to the training stages of BERT. However, standard BERT undergoes two pretraining objectives to train its contextualised word embeddings - masked language modelling (MLM) and next sentence prediction (NSP). The original BERT paper \cite{bert} states that the MLM objective is used to train a deep bidirectional internal representation of the words, and NSP is used mainly to help improve BERT's performance on question answering and natural language inference tasks.
 
-Intuitively this makes sense - tuning BERT's internal representations to better understand context between sentences will help it perform better at tasks which require scanning long sequences of text, such as QA and NLI. However, our cross-domain dataset of articles and Reddit comments also contains samples with long text sequences - each article in our dataset contains 31 sentences on average. Comments are less sentence-heavy, with each comment containing on average 2 sentences. Both domains show heavy right-hand skew in the distribution of number of sentences (see Figure \ref{fig:num-sentences-distributions}).
+Intuitively this makes sense - tuning BERT's internal representations to better understand context between sentences will help it perform better at tasks which require scanning long sequences of text, such as question answering (QA) and natural language inference (NLI). However, our cross-domain dataset of articles and Reddit comments also contains samples with long text sequences - each article in our dataset contains 31 sentences on average. Comments are less sentence-heavy, with each comment containing on average 2 sentences. Both domains show heavy right-hand skew in the distribution of number of sentences (see Figure \ref{fig:num-sentences-distributions}).
 
 \begin{figure}[ht]
     \centering
@@ -85,7 +85,7 @@ As in Chapter \ref{chap:domain-adaptation}, we report results for both \textit{a
             \hline
         \end{tabular}
     \end{center}
-    \caption{Evaluation metrics comparing extended AdaptaBERT to standard AdaptaBERT, direct transfer and in-domain baselines for political bias detection task}
+    \caption{Evaluation metrics comparing extended AdaptaBERT to standard AdaptaBERT, direct transfer and in-domain baselines for the political bias detection task}
     \label{tab:adaptabert-nsp-results}
 \end{table}
 
@@ -113,7 +113,7 @@ We only evaluate \textit{articles $ \rightarrow $ tweets} transfer, since this i
             \hline
         \end{tabular}
     \end{center}
-    \caption{Evaluation metrics comparing extended AdaptaBERT to standard AdaptaBERT, direct transfer and in-domain baselines for NER task. Results 1, 2, and 4 taken from \cite{adaptabert}.}
+    \caption{Evaluation metrics comparing extended AdaptaBERT to standard AdaptaBERT, direct transfer and in-domain baselines for the NER task. Results 1, 2, and 4 taken from \cite{adaptabert}.}
     \label{tab:adaptabert-nsp-ner-results}
 \end{table}
 
@@ -194,7 +194,7 @@ We can see in the \textit{articles $ \rightarrow $ comments} case we achieve the
             \hline
         \end{tabular}
     \end{center}
-    \caption{Evaluation metrics comparing extended AdaptaBERT with optimal source:target ratio in the NSP stage to standard AdaptaBERT, direct transfer and in-domain baselines for political bias detection task}
+    \caption{Evaluation metrics comparing extended AdaptaBERT with optimal source:target ratio in the NSP stage to standard AdaptaBERT, direct transfer and in-domain baselines for the political bias detection task}
     \label{tab:adaptabert-nsp-results-best}
 \end{table}
 

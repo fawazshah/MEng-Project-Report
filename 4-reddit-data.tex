@@ -98,9 +98,9 @@ One step we perform to improve the reliability of this dataset is to balance the
     \label{tab:reddit-classes-before-balancing}
 \end{table}
 
-We can't resolve class imbalance in articles and comments independently, since we need to preserve data integrity by only keeping comments for which the articles they are addressing are still present in the dataset, and vice versa. We must therefore balance either articles or comments, and then propagate changes through to the other domain by adding/deleting invalidated data. Thus we can only perfectly balance either articles or comments - the other domain will remain somewhat unbalanced in either case.
+We can't resolve class imbalance in articles and comments independently, since we need to preserve data integrity by only keeping comments for which the articles they are reacting to are still present in the dataset, and vice versa. We must therefore balance either articles or comments, and then propagate changes through to the other domain by adding/deleting invalidated data. Thus we can only perfectly balance either articles or comments - the other domain will remain somewhat unbalanced in either case.
 
-We first try balancing articles by downsampling the minority class and then removing all comments that correspond to deleted submissions. However, this leads to catastrophic class imbalance in comments (\textasciitilde 44,000 \textit{right} comments vs \textasciitilde 2000 \textit{left} comments). We therefore balance comments first through downsampling and then propagate changes to the articles - this leads to a much more manageable class imbalance in articles. The final class distributions are shown in Table \ref{tab:reddit-classes-after-balancing}.
+We first try balancing articles by downsampling the minority class and then removing all comments that correspond to deleted articles. However, this leads to catastrophic class imbalance in comments (approximately 44,000 \textit{right} comments vs 2000 \textit{left} comments). We therefore balance comments first through downsampling and then propagate changes to the articles - this leads to a much more manageable class imbalance in articles. The final class distributions are shown in Table \ref{tab:reddit-classes-after-balancing}.
 
 \begin{table}[ht]
     \begin{center}
