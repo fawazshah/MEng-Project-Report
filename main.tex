@@ -49,9 +49,9 @@
 
 \begin{abstract}
 
-Identifying political bias on social media provides useful insights for analysts who want to quantify political sentiment online and explore problems such as filter bubbles and echo chambers. However, tackling this task with traditional supervised machine learning is incredibly difficult due to the lack of annotated data available.
+Identifying political bias on social media provides useful insights for analysts who want to quantify political sentiment online. However, tackling this task with traditional supervised machine learning is incredibly difficult due to the lack of annotated data available, unlike related tasks such as bias detection in news.
 
-In this project we investigate using transfer learning to detect political bias on social media, with knowledge learnt from bias in news content. We specifically look at unsupervised domain adaptation - a class of techniques developed specifically for when no labelled data exists for the target problem. We explore `direct' transfer learning followed by a state-of-the-art domain-adaptive version of BERT called AdaptaBERT, finding these do not improve over standard classifiers. We then propose an extension to AdaptaBERT involving an extra Next Sentence Prediction fine-tuning stage. We find this does not improve classification performance for the political bias detection task, but provides a 2.5\% improvement in F1 score for a named entity recognition task.
+In this project we explore using transfer learning to detect political bias on social media, with knowledge learnt from detecting bias in news content. Specifically we look at unsupervised domain adaptation - a class of techniques developed for when no labelled data exists for the target problem. We investigate `direct' transfer learning, followed by a state-of-the-art domain-adaptive version of BERT called AdaptaBERT. We then propose an extension to AdaptaBERT involving an extra Next Sentence Prediction fine-tuning stage, and evaluate this on a political bias detection task and a named entity recognition (NER) task. We find this yields a 3.3\% improvement in F1 score for the NER task.
 
 Significant further work is needed to help transfer learning classifiers reach the same performance as standard supervised classifiers, with the hope that they can exceed performance in the future.
 
@@ -62,7 +62,7 @@ Significant further work is needed to help transfer learning classifiers reach t
 
 Firstly I would like to thank my supervisor Dr Anandha Gopalan for his continuous guidance, enthusiasm and support throughout the project, during what has been a tough year.
 
-Secondly, I want to thank everyone who I've had the pleasure of being friends with in the last 4 years. I especially owe a great deal to Anindita Ghosh, Subhash Nalluru, and Inara Ramji for proof-reading my report, as well as Arjun Singh, Zélie Everest and the rest of the \textit{Lit Times} squad for keeping me motivated through this pandemic.
+Secondly, I want to thank everyone who I've had the pleasure of being friends with in the last 4 years. I especially owe a great deal to Anindita Ghosh, Subhash Nalluru, and Inara Ramji for proof-reading my report, as well as to Arjun, Zay and the rest of the \textit{Lit Times} squad for keeping me motivated through this pandemic.
 
 Finally I want to thank my amazing family for their endless love and encouragement through my entire degree. I wouldn't be where I am today without them.
 

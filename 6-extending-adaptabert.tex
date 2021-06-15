@@ -4,9 +4,9 @@ In Chapter \ref{chap:domain-adaptation} we described the AdaptaBERT model, and m
 
 \section{Motivation}
 
-Currently, AdaptaBERT only adds an extra masked language modelling objective to the training stages of BERT. However, standard BERT undergoes two pretraining objectives to train its contextualised word embeddings - masked language modelling (MLM) and next sentence prediction (NSP). The original BERT paper \cite{bert} states that the MLM objective is used to train a deep bidirectional internal representation of the words, and NSP is used mainly to help improve BERT's performance on question answering and natural language inference tasks.
+Currently, AdaptaBERT only adds an extra masked language modelling objective to the training stages of BERT. However, standard BERT undergoes two pretraining objectives to train its contextualised word embeddings - masked language modelling (MLM) and next sentence prediction (NSP). The original BERT paper \cite{bert} states that the MLM objective is used to train a deep bidirectional internal representation of the words, and NSP is used mainly to help improve BERT's performance on question answering (QA) and natural language inference (NLI) tasks.
 
-Intuitively this makes sense - tuning BERT's internal representations to better understand context between sentences will help it perform better at tasks which require scanning long sequences of text, such as question answering (QA) and natural language inference (NLI). However, our cross-domain dataset of articles and Reddit comments also contains samples with long text sequences - each article in our dataset contains 31 sentences on average. Comments are less sentence-heavy, with each comment containing on average 2 sentences. Both domains show heavy right-hand skew in the distribution of number of sentences (see Figure \ref{fig:num-sentences-distributions}).
+Intuitively this makes sense - tuning BERT's internal representations to better understand context between sentences will help it perform better at tasks which require scanning long sequences of text, such as QA and NLI. However, our cross-domain dataset of articles and Reddit comments also contains samples with long text sequences - each article in our dataset contains 31 sentences on average. Comments are less sentence-heavy, with each comment containing on average 2 sentences. Both domains show heavy right-hand skew in the distribution of number of sentences (see Figure \ref{fig:num-sentences-distributions}).
 
 \begin{figure}[ht]
     \centering
@@ -139,9 +139,11 @@ This shows us that AdaptaBERT extended with NSP can still improve over standard 
 
 \section{Finding the optimal proportion of source domain examples for NSP}
 
-In Sections \ref{sec:nsp-evaluation-political-bias} and \ref{sec:nsp-evaluation-ner}, we used an equal number of source and target domain examples for the Next Sentence Prediction stage. We now aim to find which ratio of source to target domain examples gives the optimal performance of extended AdaptaBERT, similarly to our experiments with the MLM stage in standard AdaptaBERT in Section \ref{subsec:src-proportion-adaptabert}.
+In Sections \ref{sec:nsp-evaluation-political-bias} and \ref{sec:nsp-evaluation-ner}, we used an equal number of source and target domain examples for the Next Sentence Prediction stage. We now aim to find which ratio of source to target domain examples gives the optimal performance of extended AdaptaBERT, similarly to our experiments with the MLM stage in standard AdaptaBERT in Section \ref{subsec:src-proportion-adaptabert}. Again, we trial source proportion values of 0, 1/3, 2/3 and 1. In all cases we use all target domain data available.
 
-We will perform our experiments using the political bias detection task. Again, we trial source proportion values of 0, 1/3, 2/3 and 1. In all cases we use all target domain data available. Results are shown in Figure \ref{fig:ner-src-proportion}.
+Results for the political bias task are shown in Figure \ref{fig:nsp-src-proportion}. We can see in the \textit{articles $ \rightarrow $ comments} case we achieve the best metrics with a source proportion of 1 (i.e. using an equal amount of source and target domain data). Interestingly, in the \textit{comments $ \rightarrow $ articles} case we achieve the best metrics using no source domain material at all in the NSP stage (the F1 line is hidden behind the accuracy line between source proportions of 0 and 1/3). This gives a final F1 score of 73.5\%, compared to 70.9\% when using an equal proportion. This almost matches the performance of standard AdaptaBERT, however does not exceed it. Our results don't appear to follow the same pattern seen in Section \ref{subsec:src-proportion-adaptabert}, where adding more source domain material leads to increasing deterioration in model performance. In fact, in both transfer directions using an equal amount of source and target domain material in the NSP stage results in very good classifier performance compared to other ratios. Our new best extended AdaptaBERT results for this task are shown in Table \ref{tab:adaptabert-nsp-results-best}. 
+
+Results for the NER task are shown in Figure \ref{fig:nsp-ner-src-proportion}. We only evaluate \textit{articles $ \rightarrow $ tweets} in this case. We can see we achieve best performance with a source proportion of 0.33, similarly to our experiments in Section \ref{subsec:src-proportion-adaptabert}. This gives a final F1 score of 62.2\%, which is a 0.8\% improvement over the result in Section \ref{sec:nsp-evaluation-ner}. Overall, this is a 3.3\% improvement over standard AdaptaBERT for this task. Our new best extended AdaptaBERT results for this task are shown in Table \ref{tab:adaptabert-nsp-ner-results-best}.
 
 \begin{figure}[ht]
     \centering
@@ -153,11 +155,23 @@ We will perform our experiments using the political bias detection task. Again, 
         \centering
         \includegraphics[scale=0.24]{0-img/nsp-src-proportion-comments-articles.png}
     \end{subfigure}
-    \caption{Performance of AdaptaBERT++ when varying proportion of source domain examples compared to target domain examples used in the NSP stage}
-    \label{fig:ner-src-proportion}
+    \caption{Performance of extended AdaptaBERT on the political bias detection task when varying proportion of source domain examples compared to target domain examples used in the NSP stage}
+    \label{fig:nsp-src-proportion}
 \end{figure}
 
-We can see in the \textit{articles $ \rightarrow $ comments} case we achieve the best metrics with a source proportion of 1 (i.e. using an equal amount of source and target domain data). Interestingly, in the \textit{comments $ \rightarrow $ articles} case we achieve the best metrics using no source domain material at all in the NSP stage (the F1 line is hidden behind the accuracy line between source proportions of 0 and 1/3). This gives a final F1 score of 73.5\%, compared to 70.9\% when using an equal proportion. This almost matches the performance of standard AdaptaBERT, however does not exceed it. Our new best extended AdaptaBERT results are shown in Table \ref{tab:adaptabert-results-best}.
+\begin{figure}[ht]
+    \centering
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[scale=0.28]{0-img/nsp-ner-src-proportion-f1.png}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[scale=0.28]{0-img/nsp-ner-src-proportion-accuracy.png}
+    \end{subfigure}
+    \caption{Performance of extended AdaptaBERT on the NER task when varying proportion of source domain examples compared to target domain examples used in the NSP stage}
+    \label{fig:nsp-ner-src-proportion}
+\end{figure}
 
 \begin{table}[ht]
     \begin{center}
@@ -188,17 +202,37 @@ We can see in the \textit{articles $ \rightarrow $ comments} case we achieve the
             \hline
             \multicolumn{2}{|c|}{Direct transfer} & \multicolumn{2}{|c|}{69.6} & \multicolumn{2}{|c|}{69.3}  \\
             \multicolumn{2}{|c|}{AdaptaBERT} & \multicolumn{2}{|c|}{74.0} & \multicolumn{2}{|c|}{74.1} \\
-            \multicolumn{2}{|c|}{AdaptaBERT+NSP} & \multicolumn{2}{|c|}{73.5} & \multicolumn{2}{|c|}{73.5} \\
+            \multicolumn{2}{|c|}{AdaptaBERT+NSP} & \multicolumn{2}{|c|}{\textbf{73.5}} & \multicolumn{2}{|c|}{\textbf{73.5}} \\
             \hline
             \multicolumn{2}{|c|}{In-domain} & \multicolumn{2}{|c|}{76.2} & \multicolumn{2}{|c|}{76.5}  \\
             \hline
         \end{tabular}
     \end{center}
-    \caption{Evaluation metrics comparing extended AdaptaBERT with optimal source:target ratio in the NSP stage to standard AdaptaBERT, direct transfer and in-domain baselines for the political bias detection task}
+    \caption{Evaluation metrics comparing extended AdaptaBERT with optimal source:target ratio in the NSP stage to standard AdaptaBERT, direct transfer and in-domain baselines for the political bias detection task. Metrics that have changed since optimisation are highlighted in \textbf{bold}.}
     \label{tab:adaptabert-nsp-results-best}
 \end{table}
 
-Our results don't appear to follow the same pattern seen in Section \ref{subsec:src-proportion-adaptabert}, where adding more source domain material leads to increasing deterioration in model performance. In fact, in both transfer directions using an equal amount of source and target domain material in the NSP stage results in very good classifier performance compared to other ratios.
+\begin{table}[ht]
+    \begin{center}
+        \begin{tabular}{|c|c|}
+            \hline
+            \textbf{Task} & NER \\
+            \hline
+            \textbf{Transfer direction} & Articles $ \rightarrow $ tweets \\
+            \hline \hline
+            \textbf{Model Type} & \textbf{Macro-F1} \\
+            \hline
+            Direct transfer & 57.7  \\
+            AdaptaBERT & 58.9  \\
+            AdaptaBERT+NSP & \textbf{62.2}  \\
+            \hline
+            In-domain & 64.3 \\
+            \hline
+        \end{tabular}
+    \end{center}
+    \caption{Evaluation metrics comparing extended AdaptaBERT with the optimal source:target ratio in the NSP stage to standard AdaptaBERT, direct transfer and in-domain baselines for the NER task. Results 1, 2, and 4 taken from \cite{adaptabert}. Metrics that have changed since optimisation are highlighted in \textbf{bold}.}
+    \label{tab:adaptabert-nsp-ner-results-best}
+\end{table}
 
 \section{Discussion}
 
