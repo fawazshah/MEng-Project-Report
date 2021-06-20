@@ -56,15 +56,16 @@ The full list of subreddits we collect data from is shown in Table \ref{tab:subr
         \hline
         \textbf{Subreddit} & \textbf{Bias Label} \\
         \hline
-        r/liberal & left \\
-        r/conservative & right \\
-        r/democrats & left \\
-        r/republican & right \\
-        r/obama & left \\
-        r/hillaryclinton & left \\
-        r/sandersforpresident & left \\
-        r/sh*tliberalssay & right \\
-        r/libertarian & right \\
+        r/liberal & \multirow{5}{2em}{left} \\
+        r/democrats & \\
+        r/obama & \\
+        r/hillaryclinton & \\
+        r/sandersforpresident & \\
+        \hline
+        r/conservative & \multirow{4}{2em}{right} \\
+        r/republican & \\
+        r/sh*tliberalssay & \\
+        r/libertarian & \\
         \hline
     \end{tabular}
     \caption{Scraped subreddits and their assigned bias annotations}
@@ -176,6 +177,11 @@ Jaccard distance is often used as a similarity metric comparing two sets. For an
 \begin{equation}
     J(A, B) = \frac{|A \cap B|}{|A \cup B|}
 \end{equation}
+
+%\begin{align}
+%    J & = \frac{|\textrm{articles} \cap %\textrm{comments}|}{|\textrm{articles} \cup %\textrm{comments}|} \\
+%    & = 0.443
+%\end{align}
 
 i.e. the number of words shared divided by the total number of words in both sets. Jaccard distance is always between 0 and 1 inclusive, where 0 indicates zero similarity (i.e. no words are shared between the two sets) and 1 indicates perfect similarity (i.e. the sets are identical).
 
